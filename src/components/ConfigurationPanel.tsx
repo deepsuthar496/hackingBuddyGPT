@@ -88,7 +88,10 @@ const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
       const success = await onTestConnection();
       setTestResult(success ? 'success' : 'error');
     } catch (error) {
+      console.error('Connection test error:', error);
       setTestResult('error');
+      // Show error message to user
+      alert(`Connection failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setTesting(false);
     }
@@ -240,7 +243,7 @@ const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
             <InputField
               label="API URL"
               path="llm.api_url"
-              placeholder="https://your-ollama-endpoint.com"
+              placeholder="http://localhost:11434"
               description="Ollama API endpoint"
             />
             
@@ -275,7 +278,7 @@ const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
               label="API Path"
               path="llm.api_path"
               placeholder="/v1/chat/completions"
-              description="OpenAI compatible endpoint"
+              description="Ollama API endpoint path"
             />
             
             <div className="grid grid-cols-2 gap-4">
